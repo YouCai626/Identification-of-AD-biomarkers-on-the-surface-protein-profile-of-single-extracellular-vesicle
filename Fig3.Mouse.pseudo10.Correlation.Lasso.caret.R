@@ -240,7 +240,7 @@ for (j in 1:11) {
 }
 
 # -- ------------------------------------------------------------------------------------------------------------------
-# Correlation of protein used for modeling with mouse Aβ concentration
+# 4.Correlation of protein used for modeling with mouse Aβ concentration
 # -- ------------------------------------------------------------------------------------------------------------------
 library(tidyverse) 
 library(ggsci) 
