@@ -14,7 +14,7 @@ library(preprocessCore)
 rm(list=ls())
 gc()
 data <- read.csv('Results/Mouse_Raw.Counts.csv', row.names = 1)
-sampleID <- read_csv('Mouse.PT_SampleID_SampleName.csv', show_col_types = F)
+sampleID <- read_csv('Mouse_SampleID_SampleName.csv', show_col_types = F)
 # MouseUrine
 sub.ID <- sampleID %>% filter(Source == 'Urine')
 sub.data <- data %>% dplyr::select(sub.ID$SampleName)
@@ -254,7 +254,6 @@ for (i in 2:ncol(data.sub)) {
   myTitle <- gsub("/", "_", colnames(data.sub)[i])
   # you need to pass the result of the expression with the aes_() function
   p2 <- ggplot(data.sub, aes(x = Group, fill = Group)) + theme_bw() +
-    # geom_violin(aes_(y = as.name(colnames(data.sub)[i])), scale = 'width', width = 0.8, alpha = 0.8) +
     geom_boxplot(aes_(y = as.name(colnames(data.sub)[i])), width = 0.8, alpha = 0.8) +
     geom_jitter(aes_(y = as.name(colnames(data.sub)[i])), width = 0.3, alpha = 0.6, size = 2) + 
     geom_signif(aes_(y = as.name(colnames(data.sub)[i])), 
