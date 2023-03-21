@@ -179,7 +179,7 @@ myPro <- str_replace_all(rownames(SigPro)[1:20], '/', '.') %>% str_replace_all('
 myPro <- intersect(myPro, names(data.train))
 data.train <- data.train %>% dplyr::select(Class, Group, all_of(myPro))
 data.test <- data.test %>% dplyr::select(Class, Group, all_of(myPro))
-# Normalize the data and fill in the missing values, this can be done with the preProcess command
+# Normalize the data and fill in the missing values, this can be done with the preProcess function
 preProcValues <- preProcess(data.train, method = c('center','scale')) # Normalization for validation datasets
 train.transformed <- predict(preProcValues, data.train)
 test.transformed <- predict(preProcValues, data.test)
