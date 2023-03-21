@@ -1,3 +1,4 @@
+# Set the maximum memory
 if(.Platform$OS.type == "windows") withAutoprint({
   memory.size()
   memory.size(TRUE)
