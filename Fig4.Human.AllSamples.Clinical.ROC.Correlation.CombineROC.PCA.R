@@ -1,11 +1,11 @@
 getwd()
-# 设置最大的内存
+# Set the maximum memory
 if(.Platform$OS.type == "windows") withAutoprint({
   memory.size()
   memory.size(TRUE)
   memory.limit()
 })
-# options(future.globals.maxSize = 30*1024^3) #设置为30G
+
 # 可视化常用包
 library(tidyverse) # 包含了ggplot2等包
 library(ggsci) # 期刊配色，单个离散配色模块中最多只有51种颜色
