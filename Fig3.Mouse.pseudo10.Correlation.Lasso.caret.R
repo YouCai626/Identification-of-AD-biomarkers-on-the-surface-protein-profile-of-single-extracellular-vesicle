@@ -239,8 +239,6 @@ for (j in 1:11) {
   write.csv(res, 'Results/Figure3/Files/MouseUrine.pseudo10.CPM.quantiles.train_1234_LASSO_Logistic.Pos_Top20_caret.ROC.csv')
 }
 
-# The analysis of other groups is similar to Urine
-
 # -- ------------------------------------------------------------------------------------------------------------------
 # Correlation of protein used for modeling with mouse Aβ concentration
 # -- ------------------------------------------------------------------------------------------------------------------
@@ -312,26 +310,8 @@ fn <- str_c('Results/Figure3/Abeta_Correlation/MouseUrine_Correlation_Abeta vs '
 ggsave(p2, filename = fn, width = 4, height = 4)
 
 
-# TOP3蛋白Train的表达值图
-for (i in 2:ncol(data.train)) {
-  myTitle <- gsub("/", "_", colnames(data.train)[i])
-  # 在aes()函数中无法编程，需要用aes_()函数传递表达式的结果
-  p2 <- ggplot(data.train, aes(x = Group, fill = Group)) + theme_bw() +
-    geom_boxplot(aes_(y = as.name(colnames(data.train)[i])), width = 0.6, size = 0.8) +  
-    geom_violin(aes_(y = as.name(colnames(data.train)[i])), scale = 'width', width = 0.8, alpha = 0.6) +
-    geom_jitter(aes_(y = as.name(colnames(data.train)[i])), width = 0.3, alpha = 0.6, size = 2) + 
-    geom_signif(aes_(y = as.name(colnames(data.train)[i])), 
-                comparisons = list(c('AD', 'Con')), 
-                map_signif_level = F, step_increase = 0.01, 
-                tip_length = 0.01, test = "wilcox.test", textsize = 2) +
-    xlab('') + ylab('') + ggtitle(myTitle) +
-    scale_fill_manual(values = c('#CC0000FF','#6699FFFF')) +
-    theme(legend.position = "none")
-  fn2 <- str_c('Results/Figure3/HumanUrine_pseudo10.CPM.quantiles_2021.nb_Train_', myTitle, '.png')
-  ggsave(p2, filename = fn2, width = 4, height = 4)
-  fn2 <- str_c('Results/Figure3/HumanUrine_pseudo10.CPM.quantiles_2021.nb_Train_', myTitle, '.pdf')
-  ggsave(p2, filename = fn2, width = 4, height = 4)
-}
+# The analysis for other groups is similar to the urine group
+
 
 
 
