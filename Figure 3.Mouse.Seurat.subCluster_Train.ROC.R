@@ -385,6 +385,88 @@ for (i in 2:ncol(dt.sub)) {
   ggsave(p2, filename = fn2, width = 2.5, height = 3.5)
 }
 
+# -- ------------------------------------------------------------------------------------------------------------------
+# Visualization of EV Counts
+# -- ------------------------------------------------------------------------------------------------------------------
+# Urine
+# -- ------------------------------------------------------------------------------------------------------------------
+rm(list=ls())
+gc()
+seuOb <- qread('SeuratObjects/MouseUrine.pseudoPer10.Merge_SCT_Harmony.Dim1-20_Res0.3.qs')
+table(seuOb$orig.ident)
+sub.seuOb_20 <- subset(seuOb, SCT_snn_res.0.1 == 20)
+table(sub.seuOb_20$orig.ident)
+a <- table(sub.seuOb_20@meta.data$orig.ident) %>% as.data.frame()
+dt <- a
+names(dt) <- c('Samples', 'EV')
+dt$Group <- ifelse(str_detect(dt$Samples, 'D'), 'AD', 'Con')
+p <- ggplot(dt, aes(x = Group, y = EV, fill = Group)) + theme_bw() +
+  geom_boxplot(width = 0.8, size = 0.6) +
+  geom_jitter(width = 0.3, size = 2, alpha = 0.8) +
+  geom_signif(comparisons = list(c("AD","Con")), 
+              map_signif_level = T, step_increase = 0.05, tip_length = 0.01, 
+              test = "wilcox.test", textsize = 2.5) +
+  xlab('') + ylab('EV Counts') + ggtitle('Urine Cluster 20') +
+  scale_fill_manual(values = c('#CC0000FF','#6699FFFF'))
+ggsave(plot = p, width = 3.5, height = 4,
+       filename = 'Results/MouseUrine/MouseUrine.pseudoPer10.Merge_SCT_Harmony.Dim1-20_0.1_Cluster20.png')
+ggsave(plot = p, width = 3.5, height = 4,
+       filename = 'Results/MouseUrine/MouseUrine.pseudoPer10.Merge_SCT_Harmony.Dim1-20_0.1_Cluster20.pdf')
+
+# PLAUR+ EV Counts
+sub.seuOb_PLAUR <- subset(seuOb, PLAUR > 0)
+a <- table(sub.seuOb_PLAUR@meta.data$orig.ident, sub.seuOb_PLAUR@meta.data$SCT_snn_res.0.1)
+write.csv(a, 'Results/MouseUrine/MouseUrine.pseudoPer10.Merge_SCT_Harmony.Dim1-20_UMAP_0.1_PLAUR_subCluster.csv')
+dt <- a %>% as.data.frame()
+names(dt) <- c('Samples', 'Cluster', 'EV')
+dt <- dt %>% filter(Cluster %in% 0:20)
+dt$Group <- ifelse(str_detect(dt$Samples, 'D'), 'AD', 'Con')
+dt$Cluster <- factor(dt$Cluster, levels = 0:20)
+dt <- dt %>% filter(Cluster %in% c(0,1,3,19,20))
+p <- ggplot(dt, aes(x = Group, y = EV, fill = Group)) + theme_bw() +
+  geom_boxplot(width = 0.8, size = 0.6) +
+  geom_jitter(width = 0.3, size = 0.5, alpha = 0.8) +
+  geom_signif(comparisons = list(c("AD","Con")), 
+              map_signif_level = T, step_increase = 0.05, tip_length = 0.01, 
+              test = "wilcox.test", textsize = 2.5) +
+  xlab('') + ylab('EV Counts') + ggtitle('PLAUR') +
+  scale_fill_manual(values = c('#CC0000FF','#6699FFFF')) +
+  theme(legend.position = "none") + facet_grid(~Cluster) + 
+  theme(panel.grid.major=element_blank(), 
+        panel.grid.minor=element_blank(),
+        panel.border = element_blank())
+ggsave(plot = p, width = 4, height = 4,
+       filename = 'Results/MouseUrine/MouseUrine.pseudoPer10.Merge_SCT_Harmony.Dim1-20_UMAP_0.1_PLAUR_Clusters_less.png')
+ggsave(plot = p, width = 4, height = 4,
+       filename = 'Results/MouseUrine/MouseUrine.pseudoPer10.Merge_SCT_Harmony.Dim1-20_UMAP_0.1_PLAUR_Clusters_less.pdf')
+
+# NECTIN1+ EV Counts
+sub.seuOb_NECTIN1 <- subset(seuOb, NECTIN1 > 0)
+a <- table(sub.seuOb_NECTIN1@meta.data$orig.ident, sub.seuOb_NECTIN1@meta.data$SCT_snn_res.0.1)
+write.csv(a, 'Results/MouseUrine/MouseUrine.pseudoPer10.Merge_SCT_Harmony.Dim1-20_UMAP_0.1_NECTIN1_subCluster.csv')
+dt <- a %>% as.data.frame()
+names(dt) <- c('Samples', 'Cluster', 'EV')
+dt <- dt %>% filter(Cluster %in% 0:20)
+dt$Group <- ifelse(str_detect(dt$Samples, 'D'), 'AD', 'Con')
+dt$Cluster <- factor(dt$Cluster, levels = 0:20)
+dt <- dt %>% filter(Cluster %in% c(0,1,3,12,20))
+p <- ggplot(dt, aes(x = Group, y = EV, fill = Group)) + theme_bw() +
+  geom_boxplot(width = 0.8, size = 0.6) +
+  geom_jitter(width = 0.3, size = 0.5, alpha = 0.8) +
+  geom_signif(comparisons = list(c("AD","Con")), 
+              map_signif_level = T, step_increase = 0.05, tip_length = 0.01, 
+              test = "wilcox.test", textsize = 2.5) +
+  xlab('') + ylab('EV Counts') + ggtitle('NECTIN1') +
+  scale_fill_manual(values = c('#CC0000FF','#6699FFFF')) +
+  theme(legend.position = "none") + facet_grid(~Cluster) + 
+  theme(panel.grid.major=element_blank(), 
+        panel.grid.minor=element_blank(),
+        panel.border = element_blank())
+ggsave(plot = p, width = 4, height = 4,
+       filename = 'Results/MouseUrine/MouseUrine.pseudoPer10.Merge_SCT_Harmony.Dim1-20_UMAP_0.1_NECTIN1_Clusters_less.png')
+ggsave(plot = p, width = 4, height = 4,
+       filename = 'Results/MouseUrine/MouseUrine.pseudoPer10.Merge_SCT_Harmony.Dim1-20_UMAP_0.1_NECTIN1_Clusters_less.pdf')
+
 
 # Similar codes have been omitted
 
